@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import LoginForm from './LoginForm';
+import LogoutButton from './LogoutButton';
+import { loginSuccess } from './authSlice';
+import Dashboard from './Dashboard/Dashboard';
 
-function App() {
+const App = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+    const sdf = useSelector((state)=>console.log("fsdfgdfgd", state))
+  // Check authentication status on component mount
+  useEffect(() => {
+    const persistedStateJSON = localStorage.getItem('authState');
+    if (persistedStateJSON) {
+      const persistedState = JSON.parse(persistedStateJSON);
+      if (persistedState.isAuthenticated) {
+        dispatch(loginSuccess(persistedState.user));
+      }
+    }
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isAuthenticated ? (
+        <div>
+          <h1>Welcome, {user.username}!</h1>
+          {/* <Dashboard /> */}
+          <LogoutButton />
+        </div>
+      ) : (
+        <LoginForm />
+      )}
     </div>
   );
-}
+};
 
 export default App;
