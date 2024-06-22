@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   widgets: [], // Example initial state, you can define your dashboard state structure here
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -23,9 +23,12 @@ const dashboardSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { fetchWidgetsStart, fetchWidgetsSuccess, fetchWidgetsFailure } = dashboardSlice.actions;
+export const { fetchWidgetsStart, fetchWidgetsSuccess, fetchWidgetsFailure, setLoading } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

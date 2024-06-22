@@ -26,7 +26,7 @@ const App = () => {
       {isAuthenticated ? (
         <div>
           <h1>Welcome, {user.username}!</h1>
-          {/* <Dashboard /> */}
+          <Dashboard />
           <LogoutButton />
         </div>
       ) : (
